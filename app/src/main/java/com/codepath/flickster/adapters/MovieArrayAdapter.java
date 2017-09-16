@@ -1,6 +1,7 @@
 package com.codepath.flickster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,27 +32,50 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         Movie movie = getItem(position);
 
         //check if the existing view is being reused
+        ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
+            viewHolder = new ViewHolder();
             LayoutInflater inflater =  LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
+
+            viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+            viewHolder.movieTitle = (TextView) convertView.findViewById(R.id.tvMovieTitle);
+            viewHolder.movieDescription = (TextView) convertView.findViewById(R.id.tvMovieDescription);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
 
         //this clears the old image from convertView
-        ivImage.setImageResource(0);
+        viewHolder.movieImage.setImageResource(0);
+        viewHolder.movieTitle.setText(movie.getOriginalTitle());
+        viewHolder.movieDescription.setText((movie.getOverview()));
 
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvMovieTitle);
-        TextView tvDescription = (TextView) convertView.findViewById(R.id.tvMovieDescription);
+        //Selectively add either the poster or backdrop image based on the screen orientation
 
-        tvTitle.setText(movie.getOriginalTitle());
-        tvDescription.setText(movie.getOverview());
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.movieImage);
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.movieImage);
+        }
 
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(ivImage);
 
         return convertView;
 
     }
+
+
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView movieTitle;
+        TextView movieDescription;
+        ImageView movieImage;
+    }
+
 
 
 }
