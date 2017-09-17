@@ -1,9 +1,14 @@
 package com.codepath.flickster.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.flickster.R;
 import com.codepath.flickster.adapters.MovieArrayAdapter;
@@ -18,6 +23,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+
+import static android.R.attr.duration;
 
 public class MovieActivity extends AppCompatActivity {
 
@@ -35,7 +42,8 @@ public class MovieActivity extends AppCompatActivity {
         movieAdapter =  new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
 
-        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+        url+=getString(R.string.the_movie_database_api_key);
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler(){
             @Override
@@ -55,6 +63,16 @@ public class MovieActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
+        //Create a listener which will open up the MovieDetails activity
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
+                Intent intent = new Intent(MovieActivity.this, YouTubeActivity.class);
+                startActivity(intent);
+
             }
         });
     }
