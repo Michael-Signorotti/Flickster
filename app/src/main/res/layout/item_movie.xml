@@ -41,4 +41,17 @@
         android:layout_alignLeft="@+id/tvMovieTitle"
         android:layout_alignStart="@+id/tvMovieTitle" />
 
+    <RatingBar
+        android:id="@+id/rbMovieRating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:numStars="5"
+        android:stepSize=".5"
+        android:progressTint="@color/ratingBarColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivMovieImage"
+        android:layout_alignStart="@+id/ivMovieImage"
+        android:layout_below="@+id/ivMovieImage"
+        android:layout_alignRight="@+id/ivMovieImage" />
+
 </RelativeLayout>

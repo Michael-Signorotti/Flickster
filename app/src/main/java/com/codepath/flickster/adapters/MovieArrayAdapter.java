@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.codepath.flickster.R;
@@ -41,6 +42,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
             viewHolder.movieTitle = (TextView) convertView.findViewById(R.id.tvMovieTitle);
             viewHolder.movieDescription = (TextView) convertView.findViewById(R.id.tvMovieDescription);
+            viewHolder.voteAverage = (RatingBar) convertView.findViewById(R.id.rbMovieRating);
+
 
             convertView.setTag(viewHolder);
         } else {
@@ -52,6 +55,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         viewHolder.movieImage.setImageResource(0);
         viewHolder.movieTitle.setText(movie.getOriginalTitle());
         viewHolder.movieDescription.setText((movie.getOverview()));
+        viewHolder.voteAverage.setRating((Float.parseFloat(movie.getVoteAverage()) / 10) * 5);
 
         //Selectively add either the poster or backdrop image based on the screen orientation
 
@@ -63,7 +67,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     .placeholder(R.drawable.flickster_portrait)
                     .into(viewHolder.movieImage);
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Picasso.with(getContext()).load(movie.getPosterPath())
+            Picasso.with(getContext()).load(movie.getBackdropPath())
                     .transform(new RoundedCornersTransformation(5, 5))
                     .fit().centerCrop()
                     .placeholder(R.drawable.flickster_landscape)
@@ -82,6 +86,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         TextView movieTitle;
         TextView movieDescription;
         ImageView movieImage;
+        RatingBar voteAverage;
     }
 
 

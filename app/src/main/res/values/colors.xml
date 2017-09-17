@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="customWhite">#F7F9FC</color>
     <color name="titleColor">#EFAC40</color>
+    <color name="ratingBarColor">#75BEFF</color>
 </resources>
