@@ -8,7 +8,7 @@
         android:id="@+id/ivMovieImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@mipmap/ic_launcher"
+        tools:src="@mipmap/ic_play"
         android:layout_marginLeft="@dimen/itemMovieMargin"
         android:layout_marginStart="@dimen/itemMovieMargin"
         android:layout_marginTop="@dimen/itemMovieMargin"

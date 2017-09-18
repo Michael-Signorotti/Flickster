@@ -21,6 +21,8 @@ public class YouTubeActivity extends YouTubeBaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
 
+        final String key = getIntent().getStringExtra("key");
+
         YouTubePlayerView youTubePlayerView =
                 (YouTubePlayerView) findViewById(R.id.player);
 
@@ -31,7 +33,7 @@ public class YouTubeActivity extends YouTubeBaseActivity  {
                                                         YouTubePlayer youTubePlayer, boolean b) {
 
                         // do any work here to cue video, play video, etc.
-                        youTubePlayer.cueVideo("5xVh-7ywKpE");
+                        youTubePlayer.cueVideo(key);
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,

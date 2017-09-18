@@ -1,5 +1,6 @@
 package com.codepath.flickster.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -76,8 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
                 String releaseDate = "";
                 String revenue = "";
                 String runtime = "";
-                String voteAverage = "";
-                String trailer = "";
+                String trailerTemp = "";
                 String backdropPath = "";
 
                 try {
@@ -103,7 +103,7 @@ public class DetailsActivity extends AppCompatActivity {
                         JSONArray jsonArray = response.getJSONArray("genres");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject obj =  (JSONObject) jsonArray.get(i);
+                            JSONObject obj = (JSONObject) jsonArray.get(i);
                             if (obj.optString("name") != null) {
                                 if (i + 1 == jsonArray.length()) {
                                     genres += "and " + obj.getString("name");
@@ -117,8 +117,19 @@ public class DetailsActivity extends AppCompatActivity {
                         }
                     }
 
+                    if (response.optJSONArray("videos") != null) {
+                        JSONArray videosArr = response.getJSONArray("videos");
+                        //get the first trailer
+                        JSONObject videoObj = (JSONObject) videosArr.get(0);
+                        if (videoObj.optString("key") != null) {
+                            trailerTemp= videoObj.getString("key");
+                        }
+                    }
+
+                    final String trailer = trailerTemp;
+
                     //update the action bar title
-                    setTitle(originalTitle);
+                    setTitle(originalTitle + " Trailer");
 
 
                     tvBudget.setText(convertDollarAmt(budget));
@@ -135,6 +146,16 @@ public class DetailsActivity extends AppCompatActivity {
                             .placeholder(R.drawable.flickster_portrait).into(ivMovieDetailsImage);
 
 
+                    //Create a listener which will open up the MovieDetails activity
+                    ivMovieDetailsImage.setOnClickListener(new AdapterView.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent intent = new Intent(DetailsActivity.this, YouTubeActivity.class);
+                            intent.putExtra("key", trailer);
+                            startActivity(intent);
+                        }
+                    });
+
+
                     Log.d("DEBUG", "Retrieved the following information");
                     Log.d("DEBUG", originalTitle);
                 } catch (JSONException e) {
@@ -147,6 +168,7 @@ public class DetailsActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+
     }
 
     public String convertDollarAmt(String amount) {
