@@ -70,7 +70,8 @@ public class MovieActivity extends AppCompatActivity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                Intent intent = new Intent(MovieActivity.this, YouTubeActivity.class);
+                Intent intent = new Intent(MovieActivity.this, DetailsActivity.class);
+                intent.putExtra("id", movies.get(position).getId());
                 startActivity(intent);
 
             }

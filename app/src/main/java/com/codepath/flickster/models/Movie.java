@@ -12,19 +12,34 @@ import java.util.ArrayList;
 
 public class Movie {
 
-
     private String posterPath;
     private String originalTitle;
     private String overview;
     private String backdropPath;
     private String voteAverage;
+    private String id;
 
     public Movie(JSONObject jsonObject) throws JSONException {
-        this.posterPath = jsonObject.getString("poster_path");
-        this.originalTitle = jsonObject.getString("original_title");
-        this.overview = jsonObject.getString("overview");
-        this.backdropPath = jsonObject.getString("backdrop_path");
-        this.voteAverage = jsonObject.getString("vote_average");
+
+        if (jsonObject.optString("poster_path") != null) {
+            this.posterPath = jsonObject.getString("poster_path");
+        }
+        if (jsonObject.optString("original_title") != null) {
+            this.originalTitle = jsonObject.getString("original_title");
+        }
+        if (jsonObject.optString("overview") != null) {
+            this.overview = jsonObject.getString("overview");
+        }
+        if (jsonObject.optString("backdrop_path") != null) {
+            this.backdropPath = jsonObject.getString("backdrop_path");
+        }
+        if (jsonObject.optString("vote_average") != null) {
+            this.voteAverage = jsonObject.getString("vote_average");
+        }
+        if (jsonObject.optString("id") != null) {
+            this.id = jsonObject.getString("id");
+        }
+
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {
@@ -61,5 +76,9 @@ public class Movie {
 
     public String getVoteAverage() {
         return voteAverage;
+    }
+
+    public String getId() {
+        return id;
     }
 }
